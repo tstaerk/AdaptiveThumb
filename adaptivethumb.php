@@ -1,6 +1,7 @@
 <?php
 
 // <pic src="/mindmap.jpg" size=30% align=right />
+// TODO: avoid code injection with this secure string
 
 $wgExtensionFunctions[] = "wfpicextension";
 
@@ -12,20 +13,22 @@ function wfpicextension()
 
 function pichtml($code, $argv)
 {
-  $param1=reset($argv); # get first value of array
-  $param2=next($argv);
-  $param3=next($argv);
-  $param4=next($argv);
+  $align=$argv['align'];
+  $width=$argv['width'];
+  $src=$argv['src'];
+  $caption=$argv['caption'];
+  if (empty($align)) {$align="right";};
+  if (empty($width)) {$width="100%";};
   $result="<div style=\"border:1px;solid;color=\"cccccc\">
-<table width=$param2 border=1 align=$param3>
+<table width=$width border=1 align=$align>
 <tr border=0>
 <td style=\"border:0px\">
-<img src=$param1 width=100% />
+<img src=$src width=100% />
 </td>
 </tr>
 <tr>
 <td style=\"border:0px\" align=center>
-$param4
+$caption
 </td>
 </tr>
 </table>
