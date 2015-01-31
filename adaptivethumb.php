@@ -19,13 +19,16 @@ function pichtml($code, $argv)
   $mode=htmlentities($argv['mode']);
   if (empty($align)) {$align="right";};
   if (empty($width)) {$width="100%";};
-  if ($mode == "table") {
+  if (!empty($caption)) 
+  {
     $mytable1="<table width=$width border=2 align=$align>
       <tr border=0><td style=\"border:0px\">";
     $mytable2="</td><tr><td style=\"border:0px\" align=center>
       $caption</td></tr></table>";
     $myimage="<img src=$src width=100% />";
-  } else {
+  } 
+  else 
+  {
     $mytable1=""; $mytable2="";
     $myimage="<img src=$src width=$width align=$align />";
   }
