@@ -16,23 +16,24 @@ function pichtml($code, $argv)
   $width=htmlentities($argv['width']); // needn't be numeric, could be "50%"
   $src=htmlentities($argv['src']);
   $caption=htmlentities($argv['caption']);
-  $mode=htmlentities($argv['mode']);
+  $border=htmlentities($argv['border']);
   if (empty($align)) {$align="right";};
   if (empty($width)) {$width="100%";};
+  if (!is_numeric($border)) {$border=0;};
   if (!empty($caption)) 
   {
-    $mytable1="<table width=$width border=2 align=$align>
-      <tr border=0><td style=\"border:0px\">";
-    $mytable2="</td><tr><td style=\"border:0px\" align=center>
-      $caption</td></tr></table>";
-    $myimage="<img src=$src width=100% />";
+    $tableopen="<table width=$width border=$border align=$align>
+      <tr border=0><td style=\"border:0px\">"; // table rows do not have an extra border
+    $tableclose="</td><tr><td style=\"border:0px\" align=center> 
+      $caption</td></tr></table>"; // table cells do not have an extra border
+    $myimage="<img src=$src width=100% />"; // the table width is already scaled down so the image width must be 100%
   } 
   else 
   {
-    $mytable1=""; $mytable2="";
+    $tableopen=""; $tableclose="";
     $myimage="<img src=$src width=$width align=$align />";
   }
-  $result="<div style=\"border:1px;solid;color=\"cccccc\"> $mytable1 $myimage $mytable2 </div>";
+  $result="$tableopen $myimage $tableclose";
   $result=preg_replace("/\n/","",$result);
   return $result;
 }
