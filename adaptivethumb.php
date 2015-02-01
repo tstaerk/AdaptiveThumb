@@ -33,7 +33,7 @@ function pichtml($code, $argv)
     $tableopen=""; $tableclose="";
     $myimage="<img src=$src width=$width align=$align />";
   }
-  $result="$tableopen $myimage $tableclose";
+  $result="$tableopen$myimage$tableclose";
   $result=preg_replace("/\n/","",$result);
   return $result;
 }
