@@ -17,6 +17,8 @@ function pichtml($code, $argv)
   $src=htmlentities($argv['src']);
   $caption=htmlentities($argv['caption']);
   $border=htmlentities($argv['border']);
+  $link=htmlentities($argv['link']);
+  if (!empty($link)) {$linkopen="<a href=$link>"; $linkclose="</a>";};
   if (empty($align)) {$align="right";};
   if (empty($width)) {$width="100%";};
   if (!is_numeric($border)) {$border=0;};
@@ -33,7 +35,7 @@ function pichtml($code, $argv)
     $tableopen=""; $tableclose="";
     $myimage="<img src=$src width=$width align=$align />";
   }
-  $result="$tableopen$myimage$tableclose";
+  $result="$tableopen$linkopen$myimage$linkclose$tableclose";
   $result=preg_replace("/\n/","",$result);
   return $result;
 }
