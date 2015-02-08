@@ -32,7 +32,7 @@ class picextension
     if (empty($align)) {$align="right";};
     if (empty($width)) {$width="100%";};
     if (!is_numeric($border)) {$border=0;};
-    $myimage="<img src=$src title=$title alt=$alt align=$align />";
+    $myimage="<img src=$src width=$width title=\"$title\" alt=\"$alt\" align=$align />";
     if (!empty($caption)) 
     {
       $parsedcaption=$parser->parse($caption, $parser->mTitle, $parser->mOptions, false, false);
@@ -41,7 +41,7 @@ class picextension
         <tr border=0><td style=\"border:0px\">"; // table rows do not have an extra border
       $tableclose="</td><tr><td style=\"border:0px\" align=center> 
 		".$parsedcaptiontext."</td></tr></table>"; // table cells do not have an extra border
-      $myimage="<img src=$src width=100% title=$title />"; // the table width is already scaled down so the image width must be 100%
+      $myimage="<img src=$src width=100% title=\"$title\" alt=\"$alt\" />"; // the table width is already scaled down so the image width must be 100%. The alignment is already with the table.
     } 
     else 
     {
