@@ -28,11 +28,12 @@ class picextension
     $link=htmlentities($argv['link']);
     $title=htmlentities($argv['title']);
     $alt=htmlentities($argv['alt']);
+    $margin=htmlentities($argv['margin']);
     if (!empty($link)) {$linkopen="<a href=$link>"; $linkclose="</a>";};
     if (empty($align)) {$align="right";};
     if (empty($width)) {$width="100%";};
     if (!is_numeric($border)) {$border=0;};
-    $myimage="<img src=$src width=$width title=\"$title\" alt=\"$alt\" align=$align />";
+    $myimage="<img src=$src width=$width title=\"$title\" alt=\"$alt\" align=$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
     if (!empty($caption)) 
     {
       $parsedcaption=$parser->parse($caption, $parser->mTitle, $parser->mOptions, false, false);
