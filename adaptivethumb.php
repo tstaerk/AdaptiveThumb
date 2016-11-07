@@ -1,6 +1,28 @@
 <?php
 
-// <pic src="/mindmap.jpg" size=30% align=right caption="this is a mindmap" />
+/*
+    adaptivethumb - a mediawiki extension that allows sizeable pictures 
+    (and thumbnails) in a mediawiki page, e.g. with the line
+    <pic src="/mindmap.jpg" size=30% align=right caption="this is a mindmap" />
+    
+    Copyright (C) 2016 by Thorsten Staerk <spam@staerk.de>
+    http://www.staerk.de/thorsten
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
 
 $wgExtensionFunctions[] = "wfpicextension";
 
