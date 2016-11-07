@@ -49,6 +49,8 @@ class picextension
       $tableopen=""; $tableclose="";
     }
     $result="$tableopen$linkopen$myimage$linkclose$tableclose";
+    global $wgAllowExternalImages;
+    if ($wgAllowExternalImages==false) {$result="";};
     $result=preg_replace("/\n/","",$result);
     return $result;
   }
