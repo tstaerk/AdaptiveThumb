@@ -1,0 +1,23 @@
+{
+	"name": "AdaptiveThumb",
+	"version": "1.0",
+	"author": [ 
+		"Thorsten Staerk" 
+	],
+	"descriptionmsg": "adaptivethumb-desc",
+	"type": "parserhook",
+	"AutoloadClasses": { 
+		"AdaptiveThumb": "includes/AdaptiveThumb.php"	
+	},
+	"Hooks": { 
+		"ParserFirstCallInit": [ 
+			"AdaptiveThumb::onParserFirstCallInit" 
+		] 	
+	},
+	"MessagesDirs": { 
+		"BoilerPlate": [ 
+			"i18n" 
+		]	
+	},
+	"manifest_version": 1
+}
