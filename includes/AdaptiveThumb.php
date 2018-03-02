@@ -34,19 +34,30 @@ class AdaptiveThumb
 
   public static function pichtml($input, array $argv, Parser $parser, PPFrame $frame)
   {
-    $align=htmlentities($argv['align']);
-    $width=htmlentities($argv['width']); // needn't be numeric, could be "50%"
-    $src=htmlentities($argv['src']);
-    $caption=htmlentities($argv['caption']);
-    $border=htmlentities($argv['border']);
-    $link=htmlentities($argv['link']);
-    $title=htmlentities($argv['title']);
-    $alt=htmlentities($argv['alt']);
-    $margin=htmlentities($argv['margin']);
-    if (!empty($link)) {$linkopen="<a href=$link>"; $linkclose="</a>";};
-    if (empty($align)) {$align="right";};
-    if (empty($width)) {$width="100%";};
-    if (!is_numeric($border)) {$border=0;};
+    $align = htmlentities($argv['align']);
+    $width = htmlentities($argv['width']); // needn't be numeric, could be "50%"
+    $fileName = htmlentities($argv['file']);
+    $src = htmlentities($argv['src']);
+    $caption = htmlentities($argv['caption']);
+    $border = htmlentities($argv['border']);
+    $link = htmlentities($argv['link']);
+    $title = htmlentities($argv['title']);
+    $alt = htmlentities($argv['alt']);
+    $margin = htmlentities($argv['margin']);
+    
+    if (!empty($link))
+        $linkopen="<a href=$link>"; $linkclose="</a>";
+    if (empty($align))
+        $align="right";
+    if (empty($width))
+        $width="100%";
+    if (!is_numeric($border))
+        $border=0;
+    if (!empty($fileName)) {
+        $file = wfFindFile($fileName);
+        if ($file)
+            $src = $file->getFullUrl();
+    }
     $myimage="<img src=$src width=$width title=\"$title\" alt=\"$alt\" align=$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
     if (!empty($caption)) 
     {
