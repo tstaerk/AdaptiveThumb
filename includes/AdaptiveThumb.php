@@ -23,24 +23,16 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-
-$wgExtensionFunctions[] = "wfpicextension";
-
-function wfpicextension()
-{
-  new picextension();
-}
-
-class picextension 
+class AdaptiveThumb 
 {
 
-  public function __construct()
+  public static function onParserFirstCallInit(&$parser)
   {
-    global $wgParser;
-    $wgParser->setHook('pic', array(&$this, 'pichtml'));
+    $parser->setHook("pic", [ __CLASS__, "pichtml"]);
+    return true;
   }
 
-  function pichtml($code, $argv, $parser)
+  public static function pichtml($input, array $argv, Parser $parser, PPFrame $frame)
   {
     $align=htmlentities($argv['align']);
     $width=htmlentities($argv['width']); // needn't be numeric, could be "50%"
