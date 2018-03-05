@@ -25,7 +25,6 @@
 
 class AdaptiveThumb 
 {
-
   public static function onParserFirstCallInit(&$parser)
   {
     $parser->setHook("pic", [ __CLASS__, "pichtml"]);
@@ -34,40 +33,61 @@ class AdaptiveThumb
 
   public static function pichtml($input, array $argv, Parser $parser, PPFrame $frame)
   {
-    $align=htmlentities($argv['align']);
-    $width=htmlentities($argv['width']); // needn't be numeric, could be "50%"
-    $src=htmlentities($argv['src']);
-    $caption=htmlentities($argv['caption']);
-    $border=htmlentities($argv['border']);
-    $link=htmlentities($argv['link']);
-    $title=htmlentities($argv['title']);
-    $alt=htmlentities($argv['alt']);
-    $margin=htmlentities($argv['margin']);
-    if (!empty($link)) {$linkopen="<a href=$link>"; $linkclose="</a>";};
-    if (empty($align)) {$align="right";};
-    if (empty($width)) {$width="100%";};
-    if (!is_numeric($border)) {$border=0;};
+    global $wgAllowExternalImages;
+      
+    $align = htmlentities($argv['align']);
+    $width = htmlentities($argv['width']); // needn't be numeric, could be "50%"
+    $fileName = htmlentities($argv['file']);
+    $src = htmlentities($argv['src']);
+    $caption = htmlentities($argv['caption']);
+    $border = htmlentities($argv['border']);
+    $link = htmlentities($argv['link']);
+    $title = htmlentities($argv['title']);
+    $alt = htmlentities($argv['alt']);
+    $margin = htmlentities($argv['margin']);
+    
+    if (!empty($link)) {
+      $linkopen="<a href=$link>"; 
+      $linkclose="</a>";
+    }
+    if (empty($align))
+      $align="right";
+    if (empty($width))
+      $width="100%";
+    if (!is_numeric($border))
+      $border=0;
+    
+    // file property takes precedence over src proprety
+    if (strlen($fileName) != 0 && wfFindFile($fileName)) 
+      $src=wfFindFile($fileName)->getFullUrl();
+    
+    // if we use a src url, external image urls must be allowed
+    else if (!$wgAllowExternalImages || strlen($src) == 0)
+      return "";
+        
     $myimage="<img src=$src width=$width title=\"$title\" alt=\"$alt\" align=$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
     if (!empty($caption)) 
     {
       $parsedcaption=$parser->parse($caption, $parser->mTitle, $parser->mOptions, false, false);
       $parsedcaptiontext=$parsedcaption->getText();
-      $tableopen="<table width=$width border=$border align=$align>
-        <tr border=0><td style=\"border:0px\">"; // table rows do not have an extra border
-      $tableclose="</td><tr><td style=\"border:0px\" align=center> 
-		".$parsedcaptiontext."</td></tr></table>"; // table cells do not have an extra border
-      $myimage="<img src=$src width=100% title=\"$title\" alt=\"$alt\" />"; // the table width is already scaled down so the image width must be 100%. The alignment is already with the table.
+      
+      // table rows do not have an extra border
+      $tableopen="<table width=$width border=$border align=$align><tr border=0><td style=\"border:0px\">"; 
+      
+      // table cells do not have an extra border
+      $tableclose="</td><tr><td style=\"border:0px\" align=center>$parsedcaptiontext</td></tr></table>"; 
+      
+      // the table width is already scaled down so the image width must be 100%. The alignment is already with the table.
+      $myimage="<img src=$src width=100% title=\"$title\" alt=\"$alt\" />"; 
     } 
     else 
     {
-      $tableopen=""; $tableclose="";
+      $tableopen=""; 
+      $tableclose="";
     }
     $result="$tableopen$linkopen$myimage$linkclose$tableclose";
-    global $wgAllowExternalImages;
-    if ($wgAllowExternalImages==false) {$result="";};
+    
     $result=preg_replace("/\n/","",$result);
     return $result;
   }
 }
-
-
