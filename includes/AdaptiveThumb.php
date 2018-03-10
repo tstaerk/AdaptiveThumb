@@ -46,10 +46,19 @@ class AdaptiveThumb
     $alt = htmlentities($argv['alt']);
     $margin = htmlentities($argv['margin']);
     
-    if (!empty($link)) {
-      $linkopen="<a href=$link>"; 
-      $linkclose="</a>";
+    $prefix = "";
+    
+    // media viewer needs a file in a page to be triggered, include an invisible file tag
+    if (!empty($fileName) && empty($link)) {
+        // class="metadata": don't display this image itself (otherwise it will appear twice in media viewer
+        $dummyMarkup = "<span class=\"metadata\" style=\"display:none\">[[File:$fileName]]</span>";
+        $prefix = $parser->recursiveTagParse($dummyMarkup, $frame);
     }
+    
+    // either a trigger for the media viewer or a custom link
+    $linkopen = empty($link) ?  "<a class=\"image\" style=\"cursor:pointer\">" : "<a href=$link>";
+    $linkclose="</a>";
+    
     if (empty($align))
       $align="right";
     if (empty($width))
@@ -65,7 +74,7 @@ class AdaptiveThumb
     else if (!$wgAllowExternalImages || strlen($src) == 0)
       return "";
         
-    $myimage="<img src=$src width=$width title=\"$title\" alt=\"$alt\" align=$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
+    $myimage="<img src=$src width=\"$width\" height=\"100%\" title=\"$title\" alt=\"$alt\" align=\$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
     if (!empty($caption)) 
     {
       $parsedcaption=$parser->parse($caption, $parser->mTitle, $parser->mOptions, false, false);
@@ -85,9 +94,10 @@ class AdaptiveThumb
       $tableopen=""; 
       $tableclose="";
     }
-    $result="$tableopen$linkopen$myimage$linkclose$tableclose";
+    $result="$prefix$tableopen$linkopen$myimage$linkclose$tableclose";
     
     $result=preg_replace("/\n/","",$result);
+
     return $result;
   }
 }
