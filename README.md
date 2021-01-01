@@ -1,6 +1,6 @@
 # adaptivethumb
 
-AdaptiveThumb is a MediaWiki extension that provides a &gt;pic&lt; tag for scaleable images.
+AdaptiveThumb is a MediaWiki extension that provides a &lt;pic&gt; tag for scaleable images.
 
 Download & Installation: http://mediawiki.org/wiki/Extension:AdaptiveThumb
 
