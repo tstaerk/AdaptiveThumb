@@ -70,9 +70,6 @@ class AdaptiveThumb
     if (strlen($fileName) != 0 && wfFindFile($fileName)) 
       $src=wfFindFile($fileName)->getFullUrl();
     
-    // if we use a src url, external image urls must be allowed
-    else if (!$wgAllowExternalImages || strlen($src) == 0)
-      return "";
         
     $myimage="<img src=$src width=\"$width\" height=\"100%\" title=\"$title\" alt=\"$alt\" align=\$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
     if (!empty($caption)) 
