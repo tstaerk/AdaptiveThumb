@@ -69,8 +69,11 @@ class AdaptiveThumb
     // file property takes precedence over src proprety
     if (strlen($fileName) != 0 && wfFindFile($fileName)) 
       $src=wfFindFile($fileName)->getFullUrl();
-    
-        
+
+    if (!$wgAllowExternalImages && preg_match("/http/",$src))
+    {
+      $src="ERROR:wgAllowExternalImages";
+    }	    
     $myimage="<img src=$src width=\"$width\" height=\"100%\" title=\"$title\" alt=\"$alt\" align=\$align style=\"margin-right:$margin;margin-left:$margin;margin-top:$margin;margin-bottom:$margin\" />";
     if (!empty($caption)) 
     {
